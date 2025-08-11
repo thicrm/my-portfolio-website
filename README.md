@@ -1,0 +1,1 @@
+Thiago Carmo’s website blends modern design with animations and retro design . Explore interactive windows, a dynamic blog, video skills showcase, and a projects gallery linked to GitHub. Enjoy a unique, creative space that highlights my coding journey with personality and style.
