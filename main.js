@@ -1,4 +1,4 @@
-import * as THREE from 'https://cdn.skypack.dev/three@0.174.0';
+import * as THREE from 'three';
 
 const container = document.getElementById("threejs-container");
 const scene = new THREE.Scene();
