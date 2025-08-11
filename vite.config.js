@@ -1,5 +1,18 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vite'
+import { resolve } from 'path'
 
 export default defineConfig({
-  base: '/', // 👈 must match your repo name
-});
+  base: '/my-portfolio-website/',
+
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        about: resolve(__dirname, 'about.html'),
+        projects: resolve(__dirname, 'projects.html'),
+        skills: resolve(__dirname, 'skills.html'),
+        blog: resolve(__dirname, 'blog.html'),
+      }
+    }
+  }
+})
