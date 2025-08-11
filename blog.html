@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Retro Blog - Windows 95</title>
+  <link rel="icon" type="image/png" href="/my-portfolio-website/assets/penrose-CRMKv-ip.png">
+  <style>
+    body {
+      margin: 0;
+      background: teal;
+      font-family: 'MS Sans Serif', sans-serif;
+      cursor: url('https://cur.cursors-4u.net/cursors/cur-2/cur118.cur'), auto;
+      overflow: hidden;
+    }
+
+    .win95-window {
+      width: 300px;
+      background: #c0c0c0;
+      border: 2px solid black;
+      box-shadow: 4px 4px #808080;
+      padding: 4px;
+      position: absolute;
+      top: 100px;
+      left: 100px;
+      z-index: 10;
+    }
+
+    .win95-title-bar {
+      background: linear-gradient(to right, #000080, #0000a0);
+      color: white;
+      padding: 2px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+      height: 22px;
+      cursor: move;
+    }
+
+    .win95-buttons {
+      display: flex;
+      gap: 2px;
+    }
+
+    .win95-btn {
+      width: 18px;
+      height: 18px;
+      font-size: 12px;
+      border: 1px solid black;
+      background: #c0c0c0;
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .win95-subtitle {
+      background: #e0e0e0;
+      border: 2px outset white;
+      padding: 4px;
+      font-size: 12px;
+    }
+
+    .win95-window-body {
+      background: white;
+      border: 2px inset white;
+      padding: 8px;
+      font-size: 13px;
+    }
+
+    .win95-read-more {
+      display: block;
+      margin: 8px;
+      font-size: 12px;
+      color: #0000ff;
+      text-decoration: underline;
+    }
+
+    #creator-tool {
+      width: 400px;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 999;
+      transition: all 0.2s ease-in-out;
+    }
+
+    #creator-tool:hover {
+      transform: translate(-50%, -50%) scale(1.02);
+      box-shadow: 
+        0 10px 30px rgba(255, 255, 255, 0.4),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+      border-color: #ffffff;
+    }
+
+    #creator-tool input,
+    #creator-tool textarea {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+
+    #taskbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: #c0c0c0;
+      border-top: 2px solid white;
+      border-left: 2px solid white;
+      border-bottom: 2px solid black;
+      border-right: 2px solid black;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      box-sizing: border-box;
+    }
+
+    #start-button {
+      background: #c0c0c0;
+      border-top: 2px solid white;
+      border-left: 2px solid white;
+      border-bottom: 2px solid black;
+      border-right: 2px solid black;
+      padding: 2px 12px;
+      font-weight: bold;
+      font-size: 14px;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+    }
+
+    #start-button:hover {
+      background: #d0d0d0;
+    }
+
+    #taskbar-clock {
+      margin-left: auto;
+      padding: 0 10px;
+      background: #c0c0c0;
+      border: 2px inset #fff;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="creator-tool" class="win95-window">
+    <div class="win95-title-bar">
+      <span>Create Post</span>
+      <div class="win95-buttons">
+        <button class="win95-btn close" onclick="document.getElementById('creator-tool').style.display='none'">✕</button>
+      </div>
+    </div>
+    <div class="win95-window-body">
+      <input type="text" id="new-title" placeholder="Post Title">
+      <textarea id="new-content" placeholder="Post Content"></textarea>
+      <input type="text" id="new-author" placeholder="Author">
+      <button onclick="createPost()">Create Post</button>
+    </div>
+  </div>
+
+  <div id="taskbar">
+    <div id="start-button" onclick="location.href='index.html'">Start</div>
+    <div id="taskbar-clock">🕒 00:00</div>
+  </div>
+
+  <script>
+    window.topZ = 100;
+
+    function makeDraggable(el) {
+      const header = el.querySelector('.win95-title-bar');
+      let offsetX = 0, offsetY = 0, isDragging = false;
+
+      header.addEventListener('mousedown', function(e) {
+        isDragging = true;
+        offsetX = e.clientX - el.offsetLeft;
+        offsetY = e.clientY - el.offsetTop;
+        el.style.zIndex = ++window.topZ;
+      });
+
+      document.addEventListener('mouseup', () => isDragging = false);
+
+      document.addEventListener('mousemove', function(e) {
+        if (isDragging) {
+          el.style.left = (e.clientX - offsetX) + 'px';
+          el.style.top = (e.clientY - offsetY) + 'px';
+        }
+      });
+    }
+
+    function createPost() {
+      const title = document.getElementById('new-title').value;
+      const content = document.getElementById('new-content').value;
+      const author = document.getElementById('new-author').value;
+      const date = new Date().toLocaleDateString();
+
+      const postWindow = document.createElement('div');
+      postWindow.className = 'win95-window';
+      postWindow.style.top = Math.random() * 300 + 'px';
+      postWindow.style.left = Math.random() * 300 + 'px';
+
+      postWindow.innerHTML = `
+        <div class="win95-title-bar">
+          <span>${title}</span>
+          <div class="win95-buttons">
+            <button class="win95-btn close" onclick="this.closest('.win95-window').remove()">✕</button>
+          </div>
+        </div>
+        <div class="win95-subtitle">${date} - ${author}</div>
+        <div class="win95-window-body">
+          <p>${content}</p>
+        </div>
+      `;
+
+      document.body.appendChild(postWindow);
+      makeDraggable(postWindow);
+
+      const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+      posts.push({ title, content, author, date });
+      localStorage.setItem('posts', JSON.stringify(posts));
+    }
+
+    // Clock update
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('taskbar-clock').textContent = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function loadPosts() {
+    const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+    const validPosts = posts.filter(post => post.content && post.content.trim() !== '');
+
+    validPosts.forEach(post => {
+    const postWindow = document.createElement('div');
+    postWindow.className = 'win95-window';
+    postWindow.style.top = Math.random() * 300 + 'px';
+    postWindow.style.left = Math.random() * 300 + 'px';
+
+    postWindow.innerHTML = `
+      <div class="win95-title-bar">
+        <span>${post.title || 'Untitled Post'}</span>
+        <div class="win95-buttons">
+          <button class="win95-btn close" onclick="this.closest('.win95-window').remove()">✕</button>
+        </div>
+      </div>
+      <div class="win95-subtitle">${post.date} - ${post.author || 'Unknown Author'}</div>
+      <div class="win95-window-body">
+        <p>${post.content.replace(/\n/g, '<br>')}</p>
+      </div>
+    `;
+
+    document.body.appendChild(postWindow);
+    makeDraggable(postWindow);
+  });
+}
+
+     window.addEventListener('DOMContentLoaded', loadPosts);
+  </script>
+</body>
+</html>
