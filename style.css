@@ -1343,33 +1343,47 @@ footer .container a i {
   
 /* Fix mobile overlap issues for projects and blog preview */
 #projects-section {
-    margin-left: 40px;
-    margin-right: 40px;
-    width: calc(100% - 80px);
-    max-width: calc(100vw - 80px);
+    margin-left: 40px !important;
+    margin-right: 40px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100vw - 80px) !important;
     box-sizing: border-box;
 }
 
 .center-wrapper {
-    margin-left: 40px;
-    margin-right: 40px;
-    width: calc(100% - 80px);
-    max-width: calc(100vw - 80px);
+    margin-left: 40px !important;
+    margin-right: 40px !important;
+    width: calc(100% - 80px) !important;
+    max-width: calc(100vw - 80px) !important;
     box-sizing: border-box;
+}
+
+/* Override existing projects-container margins */
+.projects-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
 }
 
 /* Mobile responsive adjustments */
 @media (max-width: 800px) {
     #projects-section {
-        margin-left: 20px;
-        margin-right: 20px;
-        width: calc(100% - 40px);
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+        width: calc(100% - 40px) !important;
     }
     
     .center-wrapper {
-        margin-left: 20px;
-        margin-right: 20px;
-        width: calc(100% - 40px);
+        margin-left: 20px !important;
+        margin-right: 20px !important;
+        width: calc(100% - 40px) !important;
+    }
+    
+    .projects-container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        width: 100% !important;
     }
 }
   
