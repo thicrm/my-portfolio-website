@@ -115,42 +115,42 @@
             <h2 style="text-align:center; margin-bottom: 32px;">SKILLS</h2>
             <div class="skills-list-vertical">
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/PythonLogo.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/PythonLogo.mp4" type="video/mp4"> 
                     </video>
                     <span class="skill-name">Python</span>
                 </div>
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/JSLogo.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/JSLogo.mp4" type="video/mp4"> 
                     </video>
                     <span class="skill-name">JS</span>
                 </div>
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/PHPLogo.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/PHPLogo.mp4" type="video/mp4"> 
                     </video>
                     <span class="skill-name">PHP</span>
                 </div>
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/Comp 2.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/Comp 2.mp4" type="video/mp4"> 
                     </video>
                     <span class="skill-name">HTML</span>
                 </div>
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/CSSLogo.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/CSSLogo.mp4" type="video/mp4"> 
                     </video>
                     <span class="skill-name">CSS</span>
                 </div>
                 <div class="skill-row">
-                    <video autoplay loop muted playsinline width="100" height="100" class="skill-video">
+                    <video autoplay loop muted playsinline webkit-playsinline preload="auto" width="100" height="100" class="skill-video">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/Comp 2_1.mov" type="video/quicktime">
                         <source src="https://pub-de89dbe7f03d494ba50977abf43dbda9.r2.dev/Comp 2_1.mp4" type="video/mp4"> 
                     </video>
@@ -175,5 +175,65 @@
             </a>
         </div>
     </footer>
+
+    <script>
+        // Mobile-friendly video autoplay solution
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video[autoplay]');
+            let autoplayAttempted = false;
+            
+            // Function to start all videos
+            function startAllVideos() {
+                videos.forEach(video => {
+                    if (video.paused) {
+                        video.play().catch(e => console.log('Video play failed:', e));
+                    }
+                    // Remove waiting indicator
+                    video.removeAttribute('data-waiting');
+                });
+            }
+            
+            // Try autoplay once on load
+            videos.forEach(video => {
+                video.setAttribute('webkit-playsinline', 'true');
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('muted', 'true');
+                
+                // Try autoplay
+                if (!autoplayAttempted) {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log('Autoplay blocked, waiting for user interaction');
+                            autoplayAttempted = true;
+                            // Add waiting indicator
+                            video.setAttribute('data-waiting', 'true');
+                        });
+                    }
+                }
+            });
+            
+            // Start videos on first user interaction (mobile-friendly)
+            const startEvents = ['touchstart', 'click', 'scroll'];
+            startEvents.forEach(eventType => {
+                document.addEventListener(eventType, function startVideosOnInteraction() {
+                    if (autoplayAttempted) {
+                        startAllVideos();
+                        // Remove listeners after first successful interaction
+                        startEvents.forEach(evt => {
+                            document.removeEventListener(evt, startVideosOnInteraction);
+                        });
+                    }
+                }, { once: true });
+            });
+            
+            // Also try on page visibility change
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden && autoplayAttempted) {
+                    startAllVideos();
+                }
+            });
+        });
+    </script>
 </body>
 </html> 
