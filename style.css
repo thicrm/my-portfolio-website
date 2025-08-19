@@ -1366,8 +1366,8 @@ footer .container a i {
 
 /* Override existing projects-container margins */
 .projects-container {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     width: 90% !important;
     max-width: 800px !important;
 }
@@ -1387,8 +1387,8 @@ footer .container a i {
     }
     
     .projects-container {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         width: 90% !important;
         max-width: 800px !important;
     }
