@@ -802,16 +802,22 @@ footer{
         flex-direction: column;
         max-height: none;
         height: auto;
+        overflow: hidden !important; /* Ensure overflow is hidden on mobile */
+        border-radius: 15px !important; /* Maintain border radius */
     }
 
     .text-content {
         padding: 30px 20px;
         order: 2;
+        border-radius: 0 0 15px 15px; /* Round bottom corners */
+        overflow: hidden; /* Prevent content from breaking border radius */
     }
 
     .image-container {
         order: 1;
         height: 250px;
+        border-radius: 15px 15px 0 0; /* Round top corners */
+        overflow: hidden; /* Prevent image from breaking border radius */
     }
     
     .text-content h2 {
@@ -1362,8 +1368,8 @@ footer .container a i {
 .projects-container {
     margin-left: 0 !important;
     margin-right: 0 !important;
-    width: 100% !important;
-    max-width: none !important;
+    width: 90% !important;
+    max-width: 800px !important;
 }
 
 /* Mobile responsive adjustments */
@@ -1383,7 +1389,8 @@ footer .container a i {
     .projects-container {
         margin-left: 0 !important;
         margin-right: 0 !important;
-        width: 100% !important;
+        width: 90% !important;
+        max-width: 800px !important;
     }
 }
   
@@ -1476,4 +1483,6 @@ footer > .container {
         text-align: center;
     }
 }
+  
+
   
