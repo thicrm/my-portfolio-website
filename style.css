@@ -1387,3 +1387,42 @@ footer .container a i {
     }
 }
   
+/* Fix animation videos overlapping text and footer menu overlap */
+#threejs-container {
+    margin-bottom: 80px !important; /* Increase bottom margin to prevent text overlap */
+}
+
+/* Ensure proper spacing between animation and about section */
+.container:has(#threejs-container) {
+    margin-bottom: 40px;
+}
+
+/* Fix footer overlap with menu on mobile */
+footer {
+    margin-left: 60px !important; /* Account for fixed menu width */
+    width: calc(100vw - 60px) !important;
+    box-sizing: border-box;
+}
+
+footer > .container {
+    padding-left: 20px !important; /* Reduce left padding since we added left margin */
+    padding-right: 20px !important;
+}
+
+/* Mobile responsive adjustments for footer */
+@media (max-width: 800px) {
+    footer {
+        margin-left: 40px !important;
+        width: calc(100vw - 40px) !important;
+    }
+    
+    footer > .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    
+    #threejs-container {
+        margin-bottom: 60px !important; /* Slightly less margin on mobile */
+    }
+}
+  
