@@ -326,53 +326,62 @@
 </script>
 
 <script>
-    // Force video autoplay on mobile devices
+    // Mobile-friendly video autoplay solution
     document.addEventListener('DOMContentLoaded', function() {
         const videos = document.querySelectorAll('video[autoplay]');
+        let autoplayAttempted = false;
         
+        // Function to start all videos
+        function startAllVideos() {
+            videos.forEach(video => {
+                if (video.paused) {
+                    video.play().catch(e => console.log('Video play failed:', e));
+                }
+                // Remove waiting indicator
+                video.removeAttribute('data-waiting');
+            });
+        }
+        
+        // Try autoplay once on load
         videos.forEach(video => {
-            // Force all autoplay attributes
             video.setAttribute('webkit-playsinline', 'true');
             video.setAttribute('playsinline', 'true');
             video.setAttribute('muted', 'true');
-            video.setAttribute('x-webkit-airplay', 'allow');
-            video.setAttribute('x5-video-player-type', 'h5');
-            video.setAttribute('x5-video-player-fullscreen', 'true');
             
-            // Ensure video is loaded
-            video.load();
-            
-            // Try to play immediately
-            setTimeout(() => {
+            // Try autoplay
+            if (!autoplayAttempted) {
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(error => {
-                        console.log('Autoplay prevented:', error);
-                        // Try again after user interaction
-                        document.addEventListener('touchstart', function() {
-                            video.play().catch(e => console.log('Still blocked:', e));
-                        }, { once: true });
-                        
-                        // Add click to play fallback
-                        video.addEventListener('click', function() {
-                            video.play();
-                        });
+                        console.log('Autoplay blocked, waiting for user interaction');
+                        autoplayAttempted = true;
+                        // Add waiting indicator
+                        video.setAttribute('data-waiting', 'true');
                     });
                 }
-            }, 100);
+            }
         });
-    });
-    
-    // Additional autoplay attempt on page visibility change
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            const videos = document.querySelectorAll('video[autoplay]');
-            videos.forEach(video => {
-                if (video.paused) {
-                    video.play().catch(e => console.log('Visibility change autoplay failed:', e));
+        
+        // Start videos on first user interaction (mobile-friendly)
+        const startEvents = ['touchstart', 'click', 'scroll'];
+        startEvents.forEach(eventType => {
+            document.addEventListener(eventType, function startVideosOnInteraction() {
+                if (autoplayAttempted) {
+                    startAllVideos();
+                    // Remove listeners after first successful interaction
+                    startEvents.forEach(evt => {
+                        document.removeEventListener(evt, startVideosOnInteraction);
+                    });
                 }
-            });
-        }
+            }, { once: true });
+        });
+        
+        // Also try on page visibility change
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && autoplayAttempted) {
+                startAllVideos();
+            }
+        });
     });
 </script>
 </body>
