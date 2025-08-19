@@ -1392,9 +1392,9 @@ footer .container a i {
     margin-bottom: 80px !important; /* Increase bottom margin to prevent text overlap */
 }
 
-/* Ensure proper spacing between animation and about section */
-.container:has(#threejs-container) {
-    margin-bottom: 40px;
+/* Target the specific container with threejs animation */
+.container:first-of-type {
+    margin-bottom: 40px !important;
 }
 
 /* Fix footer overlap with menu on mobile */
@@ -1423,6 +1423,20 @@ footer > .container {
     
     #threejs-container {
         margin-bottom: 60px !important; /* Slightly less margin on mobile */
+    }
+}
+
+/* Additional mobile autoplay fixes */
+@media (max-width: 800px) {
+    .skill-card video {
+        width: 120px !important; /* Smaller videos on mobile */
+        height: auto !important;
+    }
+    
+    /* Force mobile autoplay */
+    .skill-card video[autoplay] {
+        -webkit-playsinline: true !important;
+        playsinline: true !important;
     }
 }
   

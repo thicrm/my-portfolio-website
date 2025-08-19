@@ -324,5 +324,32 @@
         }
     });
 </script>
+
+<script>
+    // Force video autoplay on mobile devices
+    document.addEventListener('DOMContentLoaded', function() {
+        const videos = document.querySelectorAll('video[autoplay]');
+        
+        videos.forEach(video => {
+            // Force autoplay attributes
+            video.setAttribute('webkit-playsinline', 'true');
+            video.setAttribute('playsinline', 'true');
+            video.setAttribute('muted', 'true');
+            
+            // Try to play the video
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log('Autoplay prevented:', error);
+                    // Add click to play fallback
+                    video.addEventListener('click', function() {
+                        video.play();
+                    });
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>
